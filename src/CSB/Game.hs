@@ -3,12 +3,16 @@ module CSB.Game
   , GameState(..)
   , PlayerState(..)
   , PodState(..)
+  , newGame
   )
 where
 
-import           Data.Vector                    ( Vector )
+import           Data.Vector                    ( Vector
+                                                , (!)
+                                                )
 import qualified Data.Vector                   as Vector
 
+import           CSB.Param
 import           Data.Vec2
 
 -- * Game Specification
@@ -39,3 +43,43 @@ data PodState = PodState { _position         :: Vec2i
                          , _lap              :: Int
                          , _shieldState      :: Int
                          } deriving (Eq, Show, Read)
+
+-- * Game Creation
+
+-- | Create a new Coders Strike Back game.
+newGame :: GameSpec -> GameState
+newGame GameSpec { _checkpoints = checkpoints } = GameState
+  { _playerStates = Vec2 (newPlayerState (round <$> r11) (round <$> r12))
+                         (newPlayerState (round <$> r21) (round <$> r22))
+  , _started      = False
+  }
+ where
+  c0  = fromIntegral <$> checkpoints ! 0
+  c1  = fromIntegral <$> checkpoints ! 1
+
+  r11 = perpn (initPodDist / 2) c0 c1
+  r21 = perpn initPodDist r11 c1
+
+  r12 = perp (initPodDist / 2) c0 c1
+  r22 = perp initPodDist r12 c1
+
+  perpn d v0 v1 = (d `scalarMul` rotaten90 (normalize (v1 - v0))) + v0
+  perp d v0 v1 = (d `scalarMul` rotate90 (normalize (v1 - v0))) + v0
+
+-- | Create a new player state at game start.
+newPlayerState :: Vec2i -> Vec2i -> PlayerState
+newPlayerState initPosition1 initPosition2 = PlayerState
+  { _podStates  = Vec2 (newPodState initPosition1) (newPodState initPosition2)
+  , _boostAvail = True
+  , _timeout    = 100
+  }
+
+-- | Create a new pod state at game start.
+newPodState :: Vec2i -> PodState
+newPodState initPosition = PodState { _position         = initPosition
+                                    , _speed            = 0
+                                    , _angle            = 0
+                                    , _nextcheckpointid = 1
+                                    , _lap              = 0
+                                    , _shieldState      = 0
+                                    }
