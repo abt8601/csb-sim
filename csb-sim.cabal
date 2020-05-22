@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2734389f17937fb1bb87ec3fdfde82b023d0213d688d56395917dd1e94032cc8
+-- hash: d1f899a08128ce1ac05a1326d672e3f6f7c4f00da264726c7b188e71bc6afac5
 
 name:           csb-sim
 version:        0.1.0.0
@@ -26,13 +26,16 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      CSB.Game
+      Data.Vec2
   other-modules:
       Paths_csb_sim
   hs-source-dirs:
       src
+  default-extensions: DeriveFunctor
   build-depends:
       base >=4.7 && <5
+    , vector
   default-language: Haskell2010
 
 test-suite csb-sim-test
@@ -42,8 +45,10 @@ test-suite csb-sim-test
       Paths_csb_sim
   hs-source-dirs:
       test
+  default-extensions: DeriveFunctor
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , csb-sim
+    , vector
   default-language: Haskell2010
