@@ -8,7 +8,7 @@ module Data.Vec2
   , normalize
   , rotaten90
   , rotate90
-  , Vec2i
+  , Vec2d
   )
 where
 
@@ -65,5 +65,5 @@ rotate90 (Vec2 x y) = Vec2 (-y) x
 
 -- * Convenient Aliases
 
--- | 2-dimensional vector of integers.
-type Vec2i = Vec2 Int
+-- | 2-dimensional vector of doubles.
+type Vec2d = Vec2 Double

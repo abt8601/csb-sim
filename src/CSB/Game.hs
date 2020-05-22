@@ -19,7 +19,7 @@ import           Data.Vec2
 
 -- | Specification for a Coders Strike Back game.
 data GameSpec = GameSpec { _laps        :: Int
-                         , _checkpoints :: Vector Vec2i
+                         , _checkpoints :: Vector Vec2d
                          } deriving (Eq, Show, Read)
 
 -- * State Information
@@ -36,8 +36,8 @@ data PlayerState = PlayerState { _podStates  :: Vec2 PodState
                                } deriving (Eq, Show, Read)
 
 -- | State for a pod.
-data PodState = PodState { _position         :: Vec2i
-                         , _speed            :: Vec2i
+data PodState = PodState { _position         :: Vec2d
+                         , _speed            :: Vec2d
                          , _angle            :: Double
                          , _nextcheckpointid :: Int
                          , _lap              :: Int
@@ -49,13 +49,12 @@ data PodState = PodState { _position         :: Vec2i
 -- | Create a new Coders Strike Back game.
 newGame :: GameSpec -> GameState
 newGame GameSpec { _checkpoints = checkpoints } = GameState
-  { _playerStates = Vec2 (newPlayerState (round <$> r11) (round <$> r12))
-                         (newPlayerState (round <$> r21) (round <$> r22))
+  { _playerStates = Vec2 (newPlayerState r11 r12) (newPlayerState r21 r22)
   , _started      = False
   }
  where
-  c0  = fromIntegral <$> checkpoints ! 0
-  c1  = fromIntegral <$> checkpoints ! 1
+  c0  = checkpoints ! 0
+  c1  = checkpoints ! 1
 
   r11 = perpn (initPodDist / 2) c0 c1
   r21 = perpn initPodDist r11 c1
@@ -67,7 +66,7 @@ newGame GameSpec { _checkpoints = checkpoints } = GameState
   perp d v0 v1 = (d `scalarMul` rotate90 (normalize (v1 - v0))) + v0
 
 -- | Create a new player state at game start.
-newPlayerState :: Vec2i -> Vec2i -> PlayerState
+newPlayerState :: Vec2d -> Vec2d -> PlayerState
 newPlayerState initPosition1 initPosition2 = PlayerState
   { _podStates  = Vec2 (newPodState initPosition1) (newPodState initPosition2)
   , _boostAvail = True
@@ -75,7 +74,7 @@ newPlayerState initPosition1 initPosition2 = PlayerState
   }
 
 -- | Create a new pod state at game start.
-newPodState :: Vec2i -> PodState
+newPodState :: Vec2d -> PodState
 newPodState initPosition = PodState { _position         = initPosition
                                     , _speed            = 0
                                     , _angle            = 0
