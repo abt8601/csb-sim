@@ -6,13 +6,19 @@ module Data.Vec2
   , sqnorm
   , norm
   , normalize
+  , proj
+  , rotate
   , rotaten90
   , rotate90
+  , arg
+  , angleBetween
   , Vec2d
   )
 where
 
 import           Control.Applicative
+
+import           CSB.Internal.Util
 
 -- * Vector.
 
@@ -55,6 +61,14 @@ norm = sqrt . sqnorm
 normalize :: (Floating a) => Vec2 a -> Vec2 a
 normalize v = v `scalarDiv` norm v
 
+-- | Project a vector onto another.
+proj v u = (u `dot` v / v `dot` v) `scalarMul` v
+
+-- | Rotate a vector.
+rotate :: (Floating a) => a -> Vec2 a -> Vec2 a
+rotate theta (Vec2 x y) =
+  Vec2 (x * cos theta - y * sin theta) (x * sin theta + y * cos theta)
+
 -- | Rotate -90 degrees.
 rotaten90 :: (Num a) => Vec2 a -> Vec2 a
 rotaten90 (Vec2 x y) = Vec2 y (-x)
@@ -62,6 +76,14 @@ rotaten90 (Vec2 x y) = Vec2 y (-x)
 -- | Rotate 90 degrees.
 rotate90 :: (Num a) => Vec2 a -> Vec2 a
 rotate90 (Vec2 x y) = Vec2 (-y) x
+
+-- | Argument.
+arg :: (RealFloat a) => Vec2 a -> a
+arg (Vec2 x y) = atan2 y x
+
+-- | Angle between 2 vectors.
+angleBetween :: (RealFloat a) => Vec2 a -> Vec2 a -> a
+angleBetween from to = normalizeAngle $ arg to - arg from
 
 -- * Convenient Aliases
 

@@ -1,14 +1,20 @@
 module CSB.Game
   ( newGame
+  , SimulationResult(..)
+  , EndGameResult(..)
+  , simulateTurn
   )
 where
 
+import           Data.Function
 import           Data.Vector                    ( Vector
                                                 , (!)
                                                 )
 import qualified Data.Vector                   as Vector
 
-import           CSB.Param
+import           CSB.Internal.CSBTypeUtil
+import           CSB.Internal.Param
+import           CSB.Internal.Sim
 import           CSB.Type
 import           Data.Vec2
 
@@ -50,3 +56,31 @@ newPodState initPosition = PodState { _position         = initPosition
                                     , _lap              = 0
                                     , _shieldState      = 0
                                     }
+
+-- * Game Simulation
+
+-- | The result of simulation.
+data SimulationResult = Ongoing GameState | Ended EndGameResult
+  deriving (Eq, Show, Read)
+
+-- | The result after a game ends.
+data EndGameResult = Win PlayerIx | Timeout PlayerIx deriving (Eq, Show, Read)
+
+-- | Simulate one turn of a game.
+simulateTurn
+  :: GameSpec -> TurnOutput -> TurnOutput -> GameState -> SimulationResult
+simulateTurn GameSpec { _laps = laps, _checkpoints = checkpoints } o1 o2 state
+  | Just which <- whichPlayer (anyPod (\PodState { _lap = l } -> l == laps))
+                              state
+  = Ended (Win which)
+  | Just which <- whichPlayer (\PlayerState { _timeout = t } -> t == 0) state
+  = Ended (Timeout which)
+  | otherwise
+  = Ongoing
+    $ state
+    & simulateRotation o1 o2
+    & simulateAcceleration o1 o2
+    & simulateMovement checkpoints
+    & simulateFriction
+    & simulateFinal
+    & simulateUpdateStarted
