@@ -4,6 +4,7 @@ module CSB.Internal.Param
   , maxTurnAngle
   , podForceFieldRadius
   , checkpointRadius
+  , collisionMinImpulse
   )
 where
 
@@ -26,3 +27,7 @@ podForceFieldRadius = 400
 -- | The radius of the checkpoint.
 checkpointRadius :: Double
 checkpointRadius = 600
+
+-- | The minimum impulse of collision.
+collisionMinImpulse :: Double
+collisionMinImpulse = 120

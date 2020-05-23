@@ -96,7 +96,20 @@ detectAllCollisions checkpoints state =
 
 -- | Bounce two pods away.
 bounce :: PodState -> PodState -> (PodState, PodState)
-bounce = undefined
+bounce p1@PodState { _position = r1, _speed = v1, _shieldState = s1 } p2@PodState { _position = r2, _speed = v2, _shieldState = s2 }
+  = (p1 { _speed = v1' }, p2 { _speed = v2' })
+ where
+  m1 = if s1 == 3 then 10 else 1
+  m2 = if s2 == 3 then 10 else 1
+
+  jp = (2 * m1 * m2 / (m1 + m2)) `scalarMul` proj (r1 - r2) (v1 - v2)
+  j  = if norm jp < collisionMinImpulse
+    then collisionMinImpulse `scalarMul` normalize jp
+    else jp
+
+  v1' = v1 - j `scalarDiv` m1
+  v2' = v2 + j `scalarDiv` m2
+
 
 -- | Bounce two indexed pods away.
 bounceI :: (PlayerIx, PodIx) -> (PlayerIx, PodIx) -> GameState -> GameState
