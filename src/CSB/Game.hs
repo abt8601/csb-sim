@@ -30,11 +30,11 @@ newGame GameSpec { _checkpoints = checkpoints } = GameState
   c0  = checkpoints ! 0
   c1  = checkpoints ! 1
 
-  r11 = perpn (initPodDist / 2) c0 c1
-  r21 = perpn initPodDist r11 c1
+  r11 = fromIntegral . round <$> perpn (initPodDist / 2) c0 c1
+  r21 = fromIntegral . round <$> perpn initPodDist r11 c1
 
-  r12 = perp (initPodDist / 2) c0 c1
-  r22 = perp initPodDist r12 c1
+  r12 = fromIntegral . round <$> perp (initPodDist / 2) c0 c1
+  r22 = fromIntegral . round <$> perp initPodDist r12 c1
 
   perpn d v0 v1 = (d `scalarMul` rotaten90 (normalize (v1 - v0))) + v0
   perp d v0 v1 = (d `scalarMul` rotate90 (normalize (v1 - v0))) + v0
