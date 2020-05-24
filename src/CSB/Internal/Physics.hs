@@ -56,7 +56,9 @@ timeToCollision r v d = if collision then time else 1 / 0
   vs        = sqrt (d ^ 2 - sqnorm compl) `scalarMul` normalize pvr
   time      = ((vs - pvr) `dot` v) / v `dot` v
 
-  collision = sqnorm compl < d ^ 2 && time > 0
+  collision = sqnorm compl < d ^ 2 && time > eps
+
+  eps       = 1e-6
 
 -- | Find the time it takes for 2 pods travelling at constant speed to collide
 -- | with each other.
