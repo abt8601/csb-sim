@@ -62,7 +62,7 @@ simulateAccelerationPerPod boostAvail Instruction { _thrust = thr } state@PodSta
   s' = if useShield then 3 else max 0 (pred s)
 
 simulateMovement :: Vector Vec2d -> GameState -> GameState
-simulateMovement checkpoints = simulateMovementTime checkpoints 0 . perPlayer
+simulateMovement checkpoints = simulateMovementTime checkpoints 1 . perPlayer
   (\state@PlayerState { _timeout = t } -> state { _timeout = pred t })
 
 simulateMovementTime :: Vector Vec2d -> Double -> GameState -> GameState
