@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3c1e3a118825040fbd67c70147698909963f559838f4decb5335c2d9d49672b1
+-- hash: 1654472ed306712734f6adbe1635848f6ea829a4ab2f8a6edb85c509971325f8
 
 name:           csb-sim
 version:        0.1.0.0
@@ -33,6 +33,7 @@ library
       CSB.Internal.Sim
       CSB.Internal.Util
       CSB.Type
+      CSB.Type.Export
       Data.Vec2
   other-modules:
       Paths_csb_sim
@@ -40,7 +41,9 @@ library
       src
   default-extensions: DeriveFunctor
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , text
     , vector
   default-language: Haskell2010
 
@@ -54,7 +57,9 @@ test-suite csb-sim-test
   default-extensions: DeriveFunctor
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , csb-sim
+    , text
     , vector
   default-language: Haskell2010
