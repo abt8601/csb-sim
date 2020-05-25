@@ -1,10 +1,26 @@
-module CSB.Type.Export where
+module CSB.Type.Export
+  ( GameInfo
+  )
+where
 
 import           Data.Aeson
 import qualified Data.Text                     as Text
 
 import           CSB.Type
 import           Data.Vec2
+
+-- | Game specification and simulation result
+data GameInfo = GameInfo { _spec :: GameSpec, _simResult :: SimResult }
+
+instance ToJSON GameInfo where
+  toJSON GameInfo { _spec = spec, _simResult = simResult } =
+    object [Text.pack "spec" .= spec, Text.pack "simResult" .= simResult]
+
+instance ToJSON GameSpec where
+  toJSON GameSpec { _laps = laps, _checkpoints = checkpoints } = object
+    [ Text.pack "laps" .= laps
+    , Text.pack "checkpoints" .= (vec2dToJSON <$> checkpoints)
+    ]
 
 instance ToJSON GameState where
   toJSON GameState { _playerStates = Vec2 p1 p2 } =
@@ -28,8 +44,6 @@ instance ToJSON PodState where
       , Text.pack "lap" .= l
       , Text.pack "shieldState" .= s
       ]
-   where
-    vec2dToJSON (Vec2 x y) = object [Text.pack "x" .= x, Text.pack "y" .= y]
 
 instance ToJSON SimResult where
   toJSON SimResult { _history = history, _outcome = outcome } =
@@ -40,3 +54,6 @@ instance ToJSON Outcome where
     object [Text.pack "type" .= "win", Text.pack "which" .= fromEnum which]
   toJSON (Timeout which) =
     object [Text.pack "type" .= "timeout", Text.pack "which" .= fromEnum which]
+
+vec2dToJSON :: Vec2d -> Value
+vec2dToJSON (Vec2 x y) = object [Text.pack "x" .= x, Text.pack "y" .= y]
