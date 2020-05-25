@@ -1,5 +1,5 @@
 module CSB.Type.Export
-  ( GameInfo
+  ( GameInfo(..)
   )
 where
 
