@@ -19,6 +19,7 @@ module CSB.Type
   , Thrust(..)
   , SimResult(..)
   , Outcome(..)
+  , Player
   )
 where
 
@@ -128,3 +129,8 @@ data SimResult = SimResult { _history :: [GameState], _outcome :: Outcome }
 
 -- | The outcome of a game, i.e., who wins or who times out.
 data Outcome = Win PlayerIx | Timeout PlayerIx deriving (Eq, Show, Read)
+
+-- * Player
+
+-- | A player. I.e., the unit that controls the 2 pods on its team.
+type Player m = GameSpec -> GameState -> m TurnOutput

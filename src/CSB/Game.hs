@@ -80,3 +80,21 @@ simulateTurn GameSpec { _laps = laps, _checkpoints = checkpoints } o1 o2 state
     & simulateFriction
     & simulateFinal
     & simulateUpdateStarted
+
+-- | End-to-end simulation.
+simulateEndToEnd :: (Monad m) => GameSpec -> Player m -> Player m -> m SimResult
+simulateEndToEnd spec p1 p2 = simulateStep initState
+ where
+  initState = newGame spec
+
+  simulateStep state = do
+    o1 <- p1 spec state
+    o2 <- p2 spec (swapPlayer state)
+
+    case simulateTurn spec o1 o2 state of
+      Ongoing state' -> do
+        SimResult { _history = history, _outcome = outcome } <- simulateStep
+          state'
+        return SimResult { _history = state : history, _outcome = outcome }
+      Ended outcome ->
+        return SimResult { _history = [state], _outcome = outcome }

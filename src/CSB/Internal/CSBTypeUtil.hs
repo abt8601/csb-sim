@@ -5,6 +5,7 @@ module CSB.Internal.CSBTypeUtil
   , perPodI
   , whichPlayer
   , anyPod
+  , swapPlayer
   )
 where
 
@@ -62,3 +63,8 @@ whichPlayer p GameState { _playerStates = Vec2 p1 p2 } | p p1 = Just Player1
 -- | Check if a predicate holds for any pods in a PlayerState.
 anyPod :: (PodState -> Bool) -> PlayerState -> Bool
 anyPod p PlayerState { _podStates = Vec2 p1 p2 } = p p1 || p p2
+
+-- | Swap the two players in a GameState.
+swapPlayer :: GameState -> GameState
+swapPlayer state@GameState { _playerStates = Vec2 p1 p2 } =
+  state { _playerStates = Vec2 p2 p1 }
