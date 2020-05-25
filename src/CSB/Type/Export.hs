@@ -33,3 +33,13 @@ instance ToJSON PodState where
    where
     vec2dToJSON (Vec2 x y) =
       object [Text.pack "x" .= toJSON x, Text.pack "y" .= y]
+
+instance ToJSON SimResult where
+  toJSON SimResult { _history = history, _outcome = outcome } =
+    object [Text.pack "history" .= history, Text.pack "outcome" .= outcome]
+
+instance ToJSON Outcome where
+  toJSON (Win which) =
+    object [Text.pack "type" .= "win", Text.pack "which" .= fromEnum which]
+  toJSON (Timeout which) =
+    object [Text.pack "type" .= "timeout", Text.pack "which" .= fromEnum which]
