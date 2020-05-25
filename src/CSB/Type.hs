@@ -17,6 +17,8 @@ module CSB.Type
   , TurnOutput(..)
   , Instruction(..)
   , Thrust(..)
+  , SimResult(..)
+  , Outcome(..)
   )
 where
 
@@ -118,3 +120,11 @@ data Instruction = Instruction { _target :: Vec2d, _thrust :: Thrust }
 
 -- | Thrust of a pod.
 data Thrust = Thrust Int | Shield | Boost deriving (Eq, Show, Read)
+
+-- * Simulation Result
+
+-- | The complete simulation result of a game.
+data SimResult = SimResult { _history :: [GameState], _outcome :: Outcome }
+
+-- | The outcome of a game, i.e., who wins or who times out.
+data Outcome = Win PlayerIx | Timeout PlayerIx deriving (Eq, Show, Read)

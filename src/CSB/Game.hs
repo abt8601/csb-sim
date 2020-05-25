@@ -1,7 +1,6 @@
 module CSB.Game
   ( newGame
-  , SimulationResult(..)
-  , EndGameResult(..)
+  , SimTurnResult(..)
   , simulateTurn
   )
 where
@@ -60,15 +59,12 @@ newPodState initPosition = PodState { _position         = initPosition
 -- * Game Simulation
 
 -- | The result of simulation.
-data SimulationResult = Ongoing GameState | Ended EndGameResult
+data SimTurnResult = Ongoing GameState | Ended Outcome
   deriving (Eq, Show, Read)
-
--- | The result after a game ends.
-data EndGameResult = Win PlayerIx | Timeout PlayerIx deriving (Eq, Show, Read)
 
 -- | Simulate one turn of a game.
 simulateTurn
-  :: GameSpec -> TurnOutput -> TurnOutput -> GameState -> SimulationResult
+  :: GameSpec -> TurnOutput -> TurnOutput -> GameState -> SimTurnResult
 simulateTurn GameSpec { _laps = laps, _checkpoints = checkpoints } o1 o2 state
   | Just which <- whichPlayer (anyPod (\PodState { _lap = l } -> l == laps))
                               state
