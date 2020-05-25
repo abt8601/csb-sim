@@ -2,6 +2,7 @@ module CSB.Game
   ( newGame
   , SimTurnResult(..)
   , simulateTurn
+  , simulateEndToEnd
   )
 where
 
