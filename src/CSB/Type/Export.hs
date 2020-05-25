@@ -2,22 +2,20 @@ module CSB.Type.Export where
 
 import           Data.Aeson
 import qualified Data.Text                     as Text
-import           Data.Vector                    ( Vector )
-import qualified Data.Vector                   as Vector
 
 import           CSB.Type
 import           Data.Vec2
 
 instance ToJSON GameState where
-  toJSON GameState { _playerStates = Vec2 p1 p2 } = object
-    [Text.pack "playerStates" .= Array (Vector.fromList (toJSON <$> [p1, p2]))]
+  toJSON GameState { _playerStates = Vec2 p1 p2 } =
+    object [Text.pack "playerStates" .= [p1, p2]]
 
 instance ToJSON PlayerState where
   toJSON PlayerState { _podStates = Vec2 p1 p2, _boostAvail = boostAvail, _timeout = timeout }
     = object
-      [ Text.pack "podStates" .= Array (Vector.fromList (toJSON <$> [p1, p2]))
-      , Text.pack "boostAvail" .= toJSON boostAvail
-      , Text.pack "timeout" .= toJSON timeout
+      [ Text.pack "podStates" .= [p1, p2]
+      , Text.pack "boostAvail" .= boostAvail
+      , Text.pack "timeout" .= timeout
       ]
 
 instance ToJSON PodState where
@@ -25,14 +23,13 @@ instance ToJSON PodState where
     = object
       [ Text.pack "position" .= vec2dToJSON r
       , Text.pack "speed" .= vec2dToJSON v
-      , Text.pack "angle" .= toJSON theta
-      , Text.pack "nextcheckpointid" .= toJSON i
-      , Text.pack "lap" .= toJSON l
-      , Text.pack "shieldState" .= toJSON s
+      , Text.pack "angle" .= theta
+      , Text.pack "nextcheckpointid" .= i
+      , Text.pack "lap" .= l
+      , Text.pack "shieldState" .= s
       ]
    where
-    vec2dToJSON (Vec2 x y) =
-      object [Text.pack "x" .= toJSON x, Text.pack "y" .= y]
+    vec2dToJSON (Vec2 x y) = object [Text.pack "x" .= x, Text.pack "y" .= y]
 
 instance ToJSON SimResult where
   toJSON SimResult { _history = history, _outcome = outcome } =
