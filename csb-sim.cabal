@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2abbc877ab7790195dcc03badf5bc41c3ccfc070803893b06be160afed501f4a
+-- hash: 1654472ed306712734f6adbe1635848f6ea829a4ab2f8a6edb85c509971325f8
 
 name:           csb-sim
 version:        0.1.0.0
@@ -34,7 +34,6 @@ library
       CSB.Internal.Util
       CSB.Type
       CSB.Type.Export
-      CSB.Type.Marshal
       Data.Vec2
   other-modules:
       Paths_csb_sim
