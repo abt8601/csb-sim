@@ -1,4 +1,4 @@
-module CSB.Internal.Param
+module CSB.Game.Internal.Param
   ( initTimeout
   , initPodDist
   , maxTurnAngle

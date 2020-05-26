@@ -1,22 +1,42 @@
 module CSB.Game
-  ( newGame
+  ( GameState(..)
+  , PlayerState(..)
+  , PodState(..)
+  , PlayerIx(..)
+  , getPlayer
+  , modifyPlayer
+  , writePlayer
+  , PodIx(..)
+  , getPod
+  , modifyPod
+  , writePod
+  , getPodInGame
+  , modifyPodInGame
+  , writePodInGame
+  , TurnOutput(..)
+  , Instruction(..)
+  , Thrust(..)
+  , SimResult(..)
+  , Outcome(..)
+  , Player
+  , newGame
   , SimTurnResult(..)
   , simulateTurn
   , simulateEndToEnd
   )
 where
 
+import           CSB.Game.Internal.Param
+import           CSB.Game.Internal.Sim
+import           CSB.Game.Internal.Type
+import           CSB.Game.Internal.Util
+import           CSB.Spec
 import           Data.Function
+import           Data.Vec2
 import           Data.Vector                    ( Vector
                                                 , (!)
                                                 )
 import qualified Data.Vector                   as Vector
-
-import           CSB.Internal.CSBTypeUtil
-import           CSB.Internal.Param
-import           CSB.Internal.Sim
-import           CSB.Type
-import           Data.Vec2
 
 -- * Game Creation
 

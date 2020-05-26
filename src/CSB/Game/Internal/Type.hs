@@ -1,6 +1,5 @@
-module CSB.Type
-  ( GameSpec(..)
-  , GameState(..)
+module CSB.Game.Internal.Type
+  ( GameState(..)
   , PlayerState(..)
   , PodState(..)
   , PlayerIx(..)
@@ -23,16 +22,9 @@ module CSB.Type
   )
 where
 
-import           Data.Vector                    ( Vector )
-
+import           CSB.Spec
 import           Data.Vec2
-
--- * Game Specification
-
--- | Specification for a Coders Strike Back game.
-data GameSpec = GameSpec { _laps        :: Int
-                         , _checkpoints :: Vector Vec2d
-                         } deriving (Eq, Show, Read)
+import           Data.Vector                    ( Vector )
 
 -- * State Information
 

@@ -1,12 +1,12 @@
-module CSB.Type.Export
+module CSB.Export
   ( GameInfo(..)
   )
 where
 
+import           CSB.Game
+import           CSB.Spec
 import           Data.Aeson
 import qualified Data.Text                     as Text
-
-import           CSB.Type
 import           Data.Vec2
 
 -- | Game specification and simulation result

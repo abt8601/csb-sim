@@ -1,4 +1,4 @@
-module CSB.Internal.CSBTypeUtil
+module CSB.Game.Internal.Util
   ( perPlayer
   , perPod
   , perPlayerI
@@ -9,7 +9,7 @@ module CSB.Internal.CSBTypeUtil
   )
 where
 
-import           CSB.Type
+import           CSB.Game.Internal.Type
 import           Data.Vec2
 
 -- | Apply a function on each PlayerState of a GameState.

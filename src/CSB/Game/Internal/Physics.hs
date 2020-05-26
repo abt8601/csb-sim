@@ -1,4 +1,4 @@
-module CSB.Internal.Physics
+module CSB.Game.Internal.Physics
   ( movePodsInertial
   , CollisionType(..)
   , detectAllCollisions
@@ -7,16 +7,15 @@ module CSB.Internal.Physics
 where
 
 import           Control.Applicative
+import           CSB.Game.Internal.Param
+import           CSB.Game.Internal.Type
+import           CSB.Game.Internal.Util
 import           Data.List
+import           Data.Vec2
 import           Data.Vector                    ( Vector
                                                 , (!)
                                                 )
 import qualified Data.Vector                   as Vector
-
-import           CSB.Internal.CSBTypeUtil
-import           CSB.Internal.Param
-import           CSB.Type
-import           Data.Vec2
 
 -- * Inertial
 

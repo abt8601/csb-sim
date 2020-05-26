@@ -1,4 +1,4 @@
-module CSB.Internal.Sim
+module CSB.Game.Internal.Sim
   ( simulateRotation
   , simulateAcceleration
   , simulateMovement
@@ -8,16 +8,15 @@ module CSB.Internal.Sim
   )
 where
 
+import           CSB.Game.Internal.Param
+import           CSB.Game.Internal.Physics
+import           CSB.Game.Internal.Type
+import           CSB.Game.Internal.Util
+import           CSB.Internal.Util
 import           Data.Function
+import           Data.Vec2
 import           Data.Vector                    ( Vector )
 import qualified Data.Vector                   as Vector
-
-import           CSB.Internal.CSBTypeUtil
-import           CSB.Internal.Param
-import           CSB.Internal.Physics
-import           CSB.Internal.Util
-import           CSB.Type
-import           Data.Vec2
 
 -- * Simulation Pipeline
 
