@@ -8,10 +8,10 @@ module CSB.Game.Internal.Sim
   )
 where
 
-import           CSB.Game.Internal.Param
 import           CSB.Game.Internal.Physics
 import           CSB.Game.Internal.Type
 import           CSB.Game.Internal.Util
+import           CSB.Internal.Param
 import           CSB.Internal.Util
 import           Data.Function
 import           Data.Vec2

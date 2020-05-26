@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e6296c491f73fff331148c01e08427654e1708c4091eeb146f98f5bf4460592f
+-- hash: ad79ff543e223bce70e7c7b9bb0dfeeab255335a193e159c922edebef4c5dfc8
 
 name:           csb-sim
 version:        0.1.0.0
@@ -28,11 +28,11 @@ library
   exposed-modules:
       CSB.Export
       CSB.Game
-      CSB.Game.Internal.Param
       CSB.Game.Internal.Physics
       CSB.Game.Internal.Sim
       CSB.Game.Internal.Type
       CSB.Game.Internal.Util
+      CSB.Internal.Param
       CSB.Internal.Util
       CSB.Spec
       Data.Vec2
@@ -44,6 +44,8 @@ library
   build-depends:
       aeson
     , base >=4.7 && <5
+    , mtl
+    , random
     , text
     , vector
   default-language: Haskell2010
@@ -61,6 +63,8 @@ test-suite csb-sim-test
       aeson
     , base >=4.7 && <5
     , csb-sim
+    , mtl
+    , random
     , text
     , vector
   default-language: Haskell2010

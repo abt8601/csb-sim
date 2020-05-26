@@ -6,6 +6,7 @@ module Data.Vec2
   , sqnorm
   , norm
   , normalize
+  , dist
   , proj
   , rotate
   , rotaten90
@@ -60,6 +61,10 @@ norm = sqrt . sqnorm
 -- | Normalize (i.e., scale to unit length) a vector.
 normalize :: (Floating a) => Vec2 a -> Vec2 a
 normalize v = v `scalarDiv` norm v
+
+-- | L2 distance.
+dist :: (Floating a) => Vec2 a -> Vec2 a -> a
+dist v u = norm (v - u)
 
 -- | Project a vector onto another.
 proj v u = (u `dot` v / v `dot` v) `scalarMul` v
