@@ -35,7 +35,6 @@ data GameState = GameState { _playerStates :: Vec2 PlayerState
 
 -- | State for a player.
 data PlayerState = PlayerState { _podStates  :: Vec2 PodState
-                               , _boostAvail :: Bool
                                , _timeout    :: Int
                                } deriving (Eq, Show, Read)
 
@@ -46,6 +45,7 @@ data PodState = PodState { _position         :: Vec2d
                          , _nextcheckpointid :: Int
                          , _lap              :: Int
                          , _shieldState      :: Int
+                         , _boostAvail       :: Bool
                          } deriving (Eq, Show, Read)
 
 -- ** Indexing.

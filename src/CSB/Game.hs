@@ -62,9 +62,8 @@ newGame GameSpec { _checkpoints = checkpoints } = GameState
 -- | Create a new player state at game start.
 newPlayerState :: Vec2d -> Vec2d -> PlayerState
 newPlayerState initPosition1 initPosition2 = PlayerState
-  { _podStates  = Vec2 (newPodState initPosition1) (newPodState initPosition2)
-  , _boostAvail = True
-  , _timeout    = 100
+  { _podStates = Vec2 (newPodState initPosition1) (newPodState initPosition2)
+  , _timeout   = 100
   }
 
 -- | Create a new pod state at game start.
@@ -75,6 +74,7 @@ newPodState initPosition = PodState { _position         = initPosition
                                     , _nextcheckpointid = 1
                                     , _lap              = 0
                                     , _shieldState      = 0
+                                    , _boostAvail       = True
                                     }
 
 -- * Game Simulation

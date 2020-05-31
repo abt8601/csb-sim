@@ -27,15 +27,11 @@ instance ToJSON GameState where
     object [Text.pack "playerStates" .= [p1, p2]]
 
 instance ToJSON PlayerState where
-  toJSON PlayerState { _podStates = Vec2 p1 p2, _boostAvail = boostAvail, _timeout = timeout }
-    = object
-      [ Text.pack "podStates" .= [p1, p2]
-      , Text.pack "boostAvail" .= boostAvail
-      , Text.pack "timeout" .= timeout
-      ]
+  toJSON PlayerState { _podStates = Vec2 p1 p2, _timeout = timeout } =
+    object [Text.pack "podStates" .= [p1, p2], Text.pack "timeout" .= timeout]
 
 instance ToJSON PodState where
-  toJSON PodState { _position = r, _speed = v, _angle = theta, _nextcheckpointid = i, _lap = l, _shieldState = s }
+  toJSON PodState { _position = r, _speed = v, _angle = theta, _nextcheckpointid = i, _lap = l, _shieldState = s, _boostAvail = boostAvail }
     = object
       [ Text.pack "position" .= vec2dToJSON r
       , Text.pack "speed" .= vec2dToJSON v
@@ -43,6 +39,7 @@ instance ToJSON PodState where
       , Text.pack "nextcheckpointid" .= i
       , Text.pack "lap" .= l
       , Text.pack "shieldState" .= s
+      , Text.pack "boostAvail" .= boostAvail
       ]
 
 instance ToJSON SimResult where

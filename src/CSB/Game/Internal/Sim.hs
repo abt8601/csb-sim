@@ -35,19 +35,11 @@ simulateRotationPerPod started Instruction { _target = target } state@PodState {
   theta' = theta + deltaTheta
 
 simulateAcceleration :: TurnOutput -> TurnOutput -> GameState -> GameState
-simulateAcceleration = perPlayerI simulateAccelerationPerPlayer
+simulateAcceleration = perPodI simulateAccelerationPerPod
 
-simulateAccelerationPerPlayer :: TurnOutput -> PlayerState -> PlayerState
-simulateAccelerationPerPlayer (Vec2 i1 i2) state@PlayerState { _podStates = Vec2 s1 s2, _boostAvail = boostAvail }
-  = state { _podStates = Vec2 s1' s2', _boostAvail = boostAvail' }
- where
-  (s1', boostAvailInt) = simulateAccelerationPerPod boostAvail i1 s1
-  (s2', boostAvail'  ) = simulateAccelerationPerPod boostAvail i2 s2
-
-simulateAccelerationPerPod
-  :: Bool -> Instruction -> PodState -> (PodState, Bool)
-simulateAccelerationPerPod boostAvail Instruction { _thrust = thr } state@PodState { _speed = v, _angle = theta, _shieldState = s }
-  = (state { _speed = v + a, _shieldState = s' }, boostAvail')
+simulateAccelerationPerPod :: Instruction -> PodState -> PodState
+simulateAccelerationPerPod Instruction { _thrust = thr } state@PodState { _speed = v, _angle = theta, _shieldState = s, _boostAvail = boostAvail }
+  = state { _speed = v + a, _shieldState = s', _boostAvail = boostAvail' }
  where
   acceleratable                   = s == 0
   (normA, useShield, boostAvail') = case thr of
