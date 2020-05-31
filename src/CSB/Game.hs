@@ -23,6 +23,7 @@ module CSB.Game
   , SimTurnResult(..)
   , simulateTurn
   , simulateEndToEnd
+  , winner
   )
 where
 
@@ -119,3 +120,11 @@ simulateEndToEnd spec p1 p2 = simulateStep initState
         return SimResult { _history = state : history, _outcome = outcome }
       Ended outcome ->
         return SimResult { _history = [state], _outcome = outcome }
+
+-- | Determine the winner from an outcome.
+winner :: Outcome -> PlayerIx
+winner (Win     p) = p
+winner (Timeout p) = theOtherPlayer p
+ where
+  theOtherPlayer Player1 = Player2
+  theOtherPlayer Player2 = Player1
