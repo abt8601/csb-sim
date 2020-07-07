@@ -30,7 +30,7 @@ where
 import           CSB.Game.Internal.Sim
 import           CSB.Game.Internal.Type
 import           CSB.Game.Internal.Util
-import           CSB.Internal.Param
+import           CSB.Param
 import           CSB.Spec
 import           Data.Function
 import           Data.Vec2

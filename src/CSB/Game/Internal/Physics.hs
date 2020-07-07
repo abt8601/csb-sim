@@ -9,7 +9,7 @@ where
 import           Control.Applicative
 import           CSB.Game.Internal.Type
 import           CSB.Game.Internal.Util
-import           CSB.Internal.Param
+import           CSB.Param
 import           Data.List
 import           Data.Vec2
 import           Data.Vector                    ( Vector

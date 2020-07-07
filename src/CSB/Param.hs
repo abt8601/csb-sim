@@ -1,4 +1,4 @@
-module CSB.Internal.Param
+module CSB.Param
   ( initTimeout
   , initPodDist
   , maxTurnAngle

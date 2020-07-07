@@ -11,8 +11,8 @@ where
 import           CSB.Game.Internal.Physics
 import           CSB.Game.Internal.Type
 import           CSB.Game.Internal.Util
-import           CSB.Internal.Param
 import           CSB.Internal.Util
+import           CSB.Param
 import           Data.Function
 import           Data.Vec2
 import           Data.Vector                    ( Vector )

@@ -5,7 +5,7 @@ module CSB.Spec
 where
 
 import           Control.Monad.State
-import           CSB.Internal.Param
+import           CSB.Param
 import           Data.Vec2
 import           Data.Vector                    ( Vector )
 import qualified Data.Vector                   as Vector
