@@ -20,7 +20,7 @@ module CSB.Game
   , Outcome(..)
   , Player
   , newGame
-  , SimTurnResult(..)
+  , checkEndgame
   , simulateTurn
   , simulateEndToEnd
   , winner
@@ -80,22 +80,21 @@ newPodState initPosition = PodState { _position         = initPosition
 
 -- * Game Simulation
 
--- | The result of simulation.
-data SimTurnResult = Ongoing GameState | Ended Outcome
-  deriving (Eq, Show, Read)
-
--- | Simulate one turn of a game.
-simulateTurn
-  :: GameSpec -> TurnOutput -> TurnOutput -> GameState -> SimTurnResult
-simulateTurn GameSpec { _laps = laps, _checkpoints = checkpoints } o1 o2 state
+-- | Check whether or not a game has ended.
+checkEndgame :: GameSpec -> GameState -> Maybe Outcome
+checkEndgame GameSpec { _laps = laps } state
   | Just which <- whichPlayer (anyPod (\PodState { _lap = l } -> l == laps))
                               state
-  = Ended (Win which)
+  = Just (Win which)
   | Just which <- whichPlayer (\PlayerState { _timeout = t } -> t == 0) state
-  = Ended (Timeout which)
+  = Just (Timeout which)
   | otherwise
-  = Ongoing
-    $ state
+  = Nothing
+
+-- | Simulate one turn of a game.
+simulateTurn :: GameSpec -> TurnOutput -> TurnOutput -> GameState -> GameState
+simulateTurn GameSpec { _laps = laps, _checkpoints = checkpoints } o1 o2 state
+  = state
     & simulateRotation o1 o2
     & simulateAcceleration o1 o2
     & simulateMovement checkpoints
@@ -109,17 +108,17 @@ simulateEndToEnd spec p1 p2 = simulateStep initState
  where
   initState = newGame spec
 
-  simulateStep state = do
-    o1 <- p1 spec state
-    o2 <- p2 spec (swapPlayer state)
+  simulateStep state = case checkEndgame spec state of
+    Just outcome -> return SimResult { _history = [state], _outcome = outcome }
+    Nothing      -> do
+      o1 <- p1 spec state
+      o2 <- p2 spec (swapPlayer state)
 
-    case simulateTurn spec o1 o2 state of
-      Ongoing state' -> do
-        SimResult { _history = history, _outcome = outcome } <- simulateStep
-          state'
-        return SimResult { _history = state : history, _outcome = outcome }
-      Ended outcome ->
-        return SimResult { _history = [state], _outcome = outcome }
+      let state' = simulateTurn spec o1 o2 state
+
+      SimResult { _history = history, _outcome = outcome } <- simulateStep
+        state'
+      return SimResult { _history = state : history, _outcome = outcome }
 
 -- | Determine the winner from an outcome.
 winner :: Outcome -> PlayerIx
