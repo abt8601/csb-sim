@@ -43,8 +43,11 @@ instance ToJSON PodState where
       ]
 
 instance ToJSON SimResult where
-  toJSON SimResult { _history = history, _outcome = outcome } =
-    object [Text.pack "history" .= history, Text.pack "outcome" .= outcome]
+  toJSON SimResult { _initState = initState, _history = history, _outcome = outcome }
+    = object
+      [ Text.pack "history" .= (initState : (snd <$> history))
+      , Text.pack "outcome" .= outcome
+      ]
 
 instance ToJSON Outcome where
   toJSON (Win which) =

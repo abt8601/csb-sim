@@ -109,8 +109,11 @@ simulateEndToEnd spec p1 p2 = simulateStep initState
   initState = newGame spec
 
   simulateStep state = case checkEndgame spec state of
-    Just outcome -> return SimResult { _history = [state], _outcome = outcome }
-    Nothing      -> do
+    Just outcome -> return SimResult { _initState = initState
+                                     , _history   = []
+                                     , _outcome   = outcome
+                                     }
+    Nothing -> do
       o1 <- p1 spec state
       o2 <- p2 spec (swapPlayer state)
 
@@ -118,7 +121,10 @@ simulateEndToEnd spec p1 p2 = simulateStep initState
 
       SimResult { _history = history, _outcome = outcome } <- simulateStep
         state'
-      return SimResult { _history = state : history, _outcome = outcome }
+      return SimResult { _initState = initState
+                       , _history   = (Vec2 o1 o2, state') : history
+                       , _outcome   = outcome
+                       }
 
 -- | Determine the winner from an outcome.
 winner :: Outcome -> PlayerIx

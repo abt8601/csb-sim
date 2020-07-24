@@ -117,7 +117,10 @@ data Thrust = Thrust Int | Shield | Boost deriving (Eq, Show, Read)
 -- * Simulation Result
 
 -- | The complete simulation result of a game.
-data SimResult = SimResult { _history :: [GameState], _outcome :: Outcome }
+data SimResult = SimResult { _initState :: GameState
+                           , _history :: [(Vec2 TurnOutput, GameState)]
+                           , _outcome :: Outcome
+                           } deriving (Eq, Show, Read)
 
 -- | The outcome of a game, i.e., who wins or who times out.
 data Outcome = Win PlayerIx | Timeout PlayerIx deriving (Eq, Show, Read)
