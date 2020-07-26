@@ -24,7 +24,6 @@ dependencies:
 - aeson
 - mtl
 - random
-- text
 - vector
 
 library:
@@ -32,6 +31,7 @@ library:
 
 default-extensions:
   - DeriveFunctor
+  - OverloadedStrings
 
 #executables:
 #  csb-sim-exe:
