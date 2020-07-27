@@ -17,14 +17,15 @@ module Data.Vec2
   )
 where
 
-import           Control.Applicative
-
 import           CSB.Internal.Util
+import           Control.Applicative
+import           Data.Aeson
+import           GHC.Generics
 
 -- * Vector.
 
 -- | 2-dimensional vector of any type.
-data Vec2 a = Vec2 a a deriving (Eq, Show, Read, Functor)
+data Vec2 a = Vec2 a a deriving (Eq, Show, Read, Functor, Generic)
 
 instance Applicative Vec2 where
   pure x = Vec2 x x
@@ -37,6 +38,11 @@ instance (Num a) => Num (Vec2 a) where
   signum = fmap signum
   fromInteger n = pure (fromInteger n)
   negate = fmap negate
+
+instance (FromJSON a) => FromJSON (Vec2 a)
+
+instance (ToJSON a) => ToJSON (Vec2 a) where
+  toEncoding = genericToEncoding defaultOptions
 
 -- | Scalar multiplication.
 scalarMul :: (Num a) => a -> Vec2 a -> Vec2 a

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 759235a534cb8f48b3219d20b130ddc3201c0707e8ccf78b54d992fbad0a7102
+-- hash: c9af4565c73a888404a23dadb7e04dac2917488d8ce5111fd292fed85c58f464
 
 name:           csb-sim
 version:        0.1.0.0
@@ -40,7 +40,7 @@ library
       Paths_csb_sim
   hs-source-dirs:
       src
-  default-extensions: DeriveFunctor OverloadedStrings
+  default-extensions: DeriveFunctor DeriveGeneric OverloadedStrings
   build-depends:
       aeson
     , base >=4.7 && <5
@@ -56,7 +56,7 @@ test-suite csb-sim-test
       Paths_csb_sim
   hs-source-dirs:
       test
-  default-extensions: DeriveFunctor OverloadedStrings
+  default-extensions: DeriveFunctor DeriveGeneric OverloadedStrings
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson

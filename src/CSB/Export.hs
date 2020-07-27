@@ -17,7 +17,7 @@ instance ToJSON GameInfo where
 
 instance ToJSON GameSpec where
   toJSON GameSpec { _laps = laps, _checkpoints = checkpoints } =
-    object ["laps" .= laps, "checkpoints" .= (vec2dToJSON <$> checkpoints)]
+    object ["laps" .= laps, "checkpoints" .= checkpoints]
 
 instance ToJSON GameState where
   toJSON GameState { _playerStates = Vec2 p1 p2 } =
@@ -30,8 +30,8 @@ instance ToJSON PlayerState where
 instance ToJSON PodState where
   toJSON PodState { _position = r, _speed = v, _angle = theta, _nextCheckPointId = i, _lap = l, _shieldState = s, _boostAvail = boostAvail }
     = object
-      [ "position" .= vec2dToJSON r
-      , "speed" .= vec2dToJSON v
+      [ "position" .= r
+      , "speed" .= v
       , "angle" .= theta
       , "nextcheckpointid" .= i
       , "lap" .= l
@@ -49,6 +49,3 @@ instance ToJSON Outcome where
     object ["type" .= ("win" :: String), "which" .= fromEnum which]
   toJSON (Timeout which) =
     object ["type" .= ("timeout" :: String), "which" .= fromEnum which]
-
-vec2dToJSON :: Vec2d -> Value
-vec2dToJSON (Vec2 x y) = object ["x" .= x, "y" .= y]
