@@ -81,7 +81,7 @@ timeToCollisionPodCheckpointI checkpoints i state = timeToCollision
   v
   checkpointRadius
  where
-  PodState { _position = r, _speed = v, _nextcheckpointid = j } =
+  PodState { _position = r, _speed = v, _nextCheckPointId = j } =
     getPodInGame i state
 
 -- | Detect all possible collisions.

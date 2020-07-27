@@ -28,7 +28,7 @@ instance ToJSON PlayerState where
     object ["podStates" .= [p1, p2], "timeout" .= timeout]
 
 instance ToJSON PodState where
-  toJSON PodState { _position = r, _speed = v, _angle = theta, _nextcheckpointid = i, _lap = l, _shieldState = s, _boostAvail = boostAvail }
+  toJSON PodState { _position = r, _speed = v, _angle = theta, _nextCheckPointId = i, _lap = l, _shieldState = s, _boostAvail = boostAvail }
     = object
       [ "position" .= vec2dToJSON r
       , "speed" .= vec2dToJSON v

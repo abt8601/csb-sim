@@ -81,8 +81,8 @@ updateCheckpointPlayer nCheckpoints i state = modifyPod
   state { _timeout = initTimeout }
 
 updateCheckpointPod :: Int -> PodState -> PodState
-updateCheckpointPod nCheckpoints state@PodState { _nextcheckpointid = i, _lap = l }
-  = state { _nextcheckpointid = i', _lap = l' }
+updateCheckpointPod nCheckpoints state@PodState { _nextCheckPointId = i, _lap = l }
+  = state { _nextCheckPointId = i', _lap = l' }
  where
   i' = if succ i == nCheckpoints then 0 else succ i
   l' = if i == 0 then succ l else l

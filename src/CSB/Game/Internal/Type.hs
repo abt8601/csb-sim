@@ -42,7 +42,7 @@ data PlayerState = PlayerState { _podStates  :: Vec2 PodState
 data PodState = PodState { _position         :: Vec2d
                          , _speed            :: Vec2d
                          , _angle            :: Double
-                         , _nextcheckpointid :: Int
+                         , _nextCheckPointId :: Int
                          , _lap              :: Int
                          , _shieldState      :: Int
                          , _boostAvail       :: Bool

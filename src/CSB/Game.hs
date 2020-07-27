@@ -72,7 +72,7 @@ newPodState :: Vec2d -> PodState
 newPodState initPosition = PodState { _position         = initPosition
                                     , _speed            = 0
                                     , _angle            = 0
-                                    , _nextcheckpointid = 1
+                                    , _nextCheckPointId = 1
                                     , _lap              = 0
                                     , _shieldState      = 0
                                     , _boostAvail       = True
