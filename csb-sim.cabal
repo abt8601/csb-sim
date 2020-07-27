@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c9af4565c73a888404a23dadb7e04dac2917488d8ce5111fd292fed85c58f464
+-- hash: 61f6dd66a2aa649f2f776fe0a46a7b1aa2a136a5d91308c42a148c29007a871a
 
 name:           csb-sim
 version:        0.1.0.0
@@ -26,12 +26,12 @@ source-repository head
 
 library
   exposed-modules:
-      CSB.Export
       CSB.Game
       CSB.Game.Internal.Physics
       CSB.Game.Internal.Sim
       CSB.Game.Internal.Type
       CSB.Game.Internal.Util
+      CSB.Internal.JSON
       CSB.Internal.Util
       CSB.Param
       CSB.Spec

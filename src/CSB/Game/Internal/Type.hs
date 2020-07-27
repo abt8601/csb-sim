@@ -22,21 +22,38 @@ module CSB.Game.Internal.Type
   )
 where
 
+import           CSB.Internal.JSON
 import           CSB.Spec
+import           Data.Aeson
 import           Data.Vec2
 import           Data.Vector                    ( Vector )
+import           GHC.Generics
 
 -- * State Information
 
 -- | State for a Coders Strike Back game.
 data GameState = GameState { _playerStates :: Vec2 PlayerState
                            , _started      :: Bool
-                           } deriving (Eq, Show, Read)
+                           } deriving (Eq, Show, Read, Generic)
+
+instance FromJSON GameState where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON GameState where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- | State for a player.
 data PlayerState = PlayerState { _podStates  :: Vec2 PodState
                                , _timeout    :: Int
-                               } deriving (Eq, Show, Read)
+                               } deriving (Eq, Show, Read, Generic)
+
+instance FromJSON PlayerState where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON PlayerState where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- | State for a pod.
 data PodState = PodState { _position         :: Vec2d
@@ -46,12 +63,27 @@ data PodState = PodState { _position         :: Vec2d
                          , _lap              :: Int
                          , _shieldState      :: Int
                          , _boostAvail       :: Bool
-                         } deriving (Eq, Show, Read)
+                         } deriving (Eq, Show, Read, Generic)
+
+instance FromJSON PodState where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON PodState where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- ** Indexing.
 
 -- | The type used to index an individual PlayerState in a GameState.
-data PlayerIx = Player1 | Player2 deriving (Eq, Ord, Enum, Bounded, Show, Read)
+data PlayerIx = Player1 | Player2
+  deriving (Eq, Ord, Enum, Bounded, Show, Read, Generic)
+
+instance FromJSON PlayerIx where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON PlayerIx where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- | Get a PlayerState by its index in a GameState.
 getPlayer :: PlayerIx -> GameState -> PlayerState
@@ -109,10 +141,24 @@ type TurnOutput = Vec2 Instruction
 
 -- | Instruction to control a pod.
 data Instruction = Instruction { _target :: Vec2d, _thrust :: Thrust }
-  deriving (Eq, Show, Read)
+  deriving (Eq, Show, Read, Generic)
+
+instance FromJSON Instruction where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON Instruction where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- | Thrust of a pod.
-data Thrust = Thrust Int | Shield | Boost deriving (Eq, Show, Read)
+data Thrust = Thrust Int | Shield | Boost deriving (Eq, Show, Read, Generic)
+
+instance FromJSON Thrust where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON Thrust where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- * Simulation Result
 
@@ -120,12 +166,38 @@ data Thrust = Thrust Int | Shield | Boost deriving (Eq, Show, Read)
 data SimResult = SimResult { _initState :: GameState
                            , _history :: [(Vec2 TurnOutput, GameState)]
                            , _outcome :: Outcome
-                           } deriving (Eq, Show, Read)
+                           } deriving (Eq, Show, Read, Generic)
+
+instance FromJSON SimResult where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON SimResult where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- | The outcome of a game, i.e., who wins or who times out.
-data Outcome = Win PlayerIx | Timeout PlayerIx deriving (Eq, Show, Read)
+data Outcome = Win PlayerIx | Timeout PlayerIx
+  deriving (Eq, Show, Read, Generic)
+
+instance FromJSON Outcome where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON Outcome where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- * Player
 
 -- | A player. I.e., the unit that controls the 2 pods on its team.
 type Player m = GameSpec -> GameState -> m TurnOutput
+
+-- | Game specification and simulation result
+data GameInfo = GameInfo { _spec :: GameSpec, _simResult :: SimResult }
+  deriving (Eq, Show, Read, Generic)
+
+instance FromJSON GameInfo where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON GameInfo where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts

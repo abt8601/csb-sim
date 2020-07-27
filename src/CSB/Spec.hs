@@ -5,10 +5,13 @@ module CSB.Spec
 where
 
 import           Control.Monad.State
+import           CSB.Internal.JSON
 import           CSB.Param
+import           Data.Aeson
 import           Data.Vec2
 import           Data.Vector                    ( Vector )
 import qualified Data.Vector                   as Vector
+import           GHC.Generics
 import           System.Random
 
 -- * Game Specification
@@ -16,7 +19,14 @@ import           System.Random
 -- | Specification for a Coders Strike Back game.
 data GameSpec = GameSpec { _laps        :: Int
                          , _checkpoints :: Vector Vec2d
-                         } deriving (Eq, Show, Read)
+                         } deriving (Eq, Show, Read, Generic)
+
+instance FromJSON GameSpec where
+  parseJSON = genericParseJSON jsonOpts
+
+instance ToJSON GameSpec where
+  toJSON     = genericToJSON jsonOpts
+  toEncoding = genericToEncoding jsonOpts
 
 -- | Generate a random specification.
 randomSpec :: (RandomGen g) => Int -> g -> (GameSpec, g)
